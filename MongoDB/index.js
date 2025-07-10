@@ -6,7 +6,7 @@ app.use(express.json());
 const jwt = require('jsonwebtoken');
 const { default: mongoose } = require('mongoose');
 const JWT_SECRET = "yogo1234";
-mongoose.connect("mongodb+srv://yogesh:Yogesh0811@cluster15.wrgi9d7.mongodb.net/todo-yogesh-2");
+mongoose.connect("");
 const { z } = require("zod");
 
 app.post("/signup", async function(req,res){
