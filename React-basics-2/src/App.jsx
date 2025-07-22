@@ -1,35 +1,67 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div style={{background: "#dfe6e9", height: "100vh"}}>
+      <ToggleMessage />
+      <ToggleMessage />
+      <ToggleMessage />
+      <NotificationMessage />
+      <NotificationMessage2 />
+    </div>
   )
 }
+
+const ToggleMessage = () => {
+  const [isVisible, setIsVisible] = useState(false); // defining a new state variable
+  
+  //When the value of a state variable changes,
+  // the component that uses the state variables re-renders
+  return (
+    <div>
+      <button onClick={()=>setIsVisible(!isVisible)}>
+        Toggle Message
+      </button>
+      {isVisible && <p>This message is conditionally rerendered</p>}
+    </div>
+  );
+};
+
+const NotificationMessage = () => {
+  let [ notificationCount, setNotificationCount ] = useState(0);
+  console.log("re-render");
+  function increment() {
+    setNotificationCount(notificationCount+1);
+  }
+
+  return(
+    <div>
+      <button onClick={increment}>
+        Increase count
+      </button>
+      {notificationCount}
+    </div>
+  );
+};
+
+const NotificationMessage2 = () => {
+  let [ notificationCount, setNotificationCount ] = useState(0);
+  console.log("re-render");
+  function decrement() {
+    setNotificationCount(notificationCount-1);
+  }
+
+  return(
+    <div>
+      <button onClick={decrement}>
+        Decrease count
+      </button>
+      {notificationCount}
+    </div>
+  );
+};
+
+
 
 export default App
