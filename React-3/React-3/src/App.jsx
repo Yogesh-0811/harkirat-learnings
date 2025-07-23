@@ -18,7 +18,7 @@ function App() {
       subtitle: "10000 followers",
       time: "2m ago",
       image: "https://tse1.mm.bing.net/th/id/OIP.vfSkjgTIHxEIOd1RhzY1PAHaEo?pid=Api&P=0&h=180",
-      description: "Wanna to get Lazyyy? Join for the upcoming event and get to learn from me personally!!"
+      description: "Wanna get Lazyyy? Join for the upcoming event and get to learn from me personally!!"
     }])
   }
 
