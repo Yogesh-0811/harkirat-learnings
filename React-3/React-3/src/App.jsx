@@ -37,6 +37,8 @@ function App() {
 
 export default App
 
+//----useEffect------
+
 // import { useEffect, useState } from "react";
 
 // function App(){
