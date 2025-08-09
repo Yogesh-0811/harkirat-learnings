@@ -1,31 +1,48 @@
 //Rolling up the state .... State Management 
 
-import { useState } from 'react';
+import { createContext, useContext, useState } from 'react';
+
+//ideally store in separate file 
+const bulbContext = createContext();
+
+function BulbProvider({children}){
+  const [bulbOn, setBulbOn] = useState(true);
+  return (<bulbContext.Provider value={{
+    bulbOn: bulbOn,
+    setBulbOn: setBulbOn
+  }}>
+    {children}
+  </bulbContext.Provider>
+  );
+}
 
 function App(){
-  // const [ bulbOn, setBulbOn ] = useState(true); --------- prop drilling ----------
   return <div>
+    <BulbProvider>
+      <Light/>
+    </BulbProvider>
+  </div>
+}
+
+function Light(){
+  // const [ bulbOn, setBulbOn ] = useState(true);
+  return <div>  
+    {/* bulbOn is a prop to the Bulb State component
+        bulbOn, setBulbOn are props to the ToggleBulbState component */}
     <LightBulb/>
+    <LightSwitch/>
   </div>
 }
 
 function LightBulb(){
-  const [ bulbOn, setBulbOn ] = useState(true);
-  return <div>  
-    {/* bulbOn is a prop to the Bulb State component
-        bulbOn, setBulbOn are props to the ToggleBulbState component */}
-    <BulbState bulbOn={bulbOn}/>
-    <ToggleBulbState bulbOn={bulbOn} setBulbOn={setBulbOn}/>
-  </div>
-}
-
-function BulbState({bulbOn}){
+  const { bulbOn } = useContext(bulbContext);
   return <div>
     {bulbOn ? "Bulb on" : "Bulb off"}
   </div>
 }
 
-function ToggleBulbState({bulbOn, setBulbOn}){
+function LightSwitch(){
+  const { bulbOn , setBulbOn} = useContext(bulbContext);
   function toggle(){
     setBulbOn(!bulbOn)
   }
