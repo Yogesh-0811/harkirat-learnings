@@ -39,7 +39,6 @@ export default function Sidebar() {
         </nav>
       </div>
 
-      {/* Overlay (click outside to close) */}
       {isOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-30 z-30 md:hidden"
