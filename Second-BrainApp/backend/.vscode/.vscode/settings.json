@@ -1,0 +1,12 @@
+{
+  // Run ESLint only on JS/TS
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+
+  // Run Stylelint only on styles
+  "stylelint.validate": ["css", "scss", "less"]
+}

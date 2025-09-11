@@ -1,0 +1,28 @@
+import mongoose, {model, Schema} from "mongoose";
+import { MONGO_URI } from "./config.js";
+
+export async function connectDB(){
+    try{
+        await mongoose.connect(MONGO_URI);
+        console.log("MongoDB connected");
+    }catch(err){
+        console.error("Mongo connection failed", err);
+        process.exit(1);
+    }
+}
+
+const UserSchema = new Schema({
+    username: {type: String, unique: true},
+    password: String
+})
+
+export const userModel = model("Users", UserSchema);
+
+const ContentSchema = new Schema({
+    title: String,
+    link: String,
+    tags: [{type: mongoose.Types.ObjectId, ref: 'Tag'}],
+    userId: {type: mongoose.Types.ObjectId, ref: 'User', require: true}
+})
+
+export const ContentModel = model("Content", ContentSchema);

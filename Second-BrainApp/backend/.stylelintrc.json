@@ -1,0 +1,9 @@
+{
+  "extends": "stylelint-config-standard",
+  "overrides": [
+    {
+      "files": ["**/*.ts", "**/*.js", "**/*.tsx", "**/*.jsx"],
+      "rules": {}
+    }
+  ]
+}
