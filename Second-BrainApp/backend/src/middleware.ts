@@ -11,11 +11,10 @@ interface JWTPayloadWithId{
 }
 
 export const userMiddleware = (req: AuthenticatedRequest, res: Response, next: NextFunction)=>{
-    const header = req.headers["authorization"];
-    if(!header){
+    const token = req.headers["authorization"];
+    if(!token){
         return res.status(401).json({message: "No token provided"});
     }
-    const token = header.split(" ")[1];
     try{
         const decoded = jwt.verify(token as string, JWT_SECRET) as JWTPayloadWithId;
         req.userId = decoded.id;

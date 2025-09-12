@@ -1,9 +1,8 @@
 import mongoose, { model, Schema } from "mongoose";
-import dotenv from "dotenv";
-dotenv.config();
+import { MONGO_URI } from "./config.js";
 export async function connectDB() {
     try {
-        await mongoose.connect(process.env.MONGO_URI);
+        await mongoose.connect(MONGO_URI);
         console.log("MongoDB connected");
     }
     catch (err) {
@@ -16,3 +15,16 @@ const UserSchema = new Schema({
     password: String
 });
 export const userModel = model("Users", UserSchema);
+const ContentSchema = new Schema({
+    title: String,
+    link: String,
+    tags: [{ type: mongoose.Types.ObjectId, ref: 'Tag' }],
+    userId: { type: mongoose.Types.ObjectId, ref: 'Users', required: true }
+});
+export const ContentModel = model("Content", ContentSchema);
+const ShareSchema = new Schema({
+    userId: { type: mongoose.Types.ObjectId, ref: "Users", required: true },
+    contentIds: [{ type: mongoose.Types.ObjectId, ref: "Content" }],
+    shareLink: { type: String, unique: true, required: true }
+});
+export const ShareModel = model("Share", ShareSchema);
