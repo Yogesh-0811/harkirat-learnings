@@ -94,9 +94,15 @@ app.delete("/api/v1/content", userMiddleware, async (req, res) => {
         });
     }
 });
-app.get("/api/v1/brain/share", userMiddleware, async (req, res) => {
+app.post("/api/v1/brain/share", userMiddleware, async (req, res) => {
     try {
         const { contentIds } = req.body;
+        const count = await ShareModel.countDocuments({ userId: req.userId });
+        if (count >= 3) {
+            return res.status(400).json({
+                message: "You can only create up to 3 share links"
+            });
+        }
         const shareLink = uuidv4();
         const share = await ShareModel.create({
             userId: req.userId,
@@ -113,10 +119,39 @@ app.get("/api/v1/brain/share", userMiddleware, async (req, res) => {
         res.status(500).json({ message: "Error creating share link" });
     }
 });
+app.get("/api/v1/brain/share", userMiddleware, async (req, res) => {
+    try {
+        const shares = await ShareModel.find({ userId: req.userId }).populate("contentIds");
+        res.json({
+            message: "Fetched all share links",
+            count: shares.length,
+            shares
+        });
+    }
+    catch (err) {
+        res.status(500).json({ message: "Error fetching share links" });
+    }
+});
+app.delete("/api/v1/brain/share/:id", userMiddleware, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const share = await ShareModel.findOneAndDelete({ _id: id, userId: req.userId });
+        if (!share) {
+            return res.status(404).json({ message: "Share link not found or unauthorized" });
+        }
+        res.json({
+            message: "Share link deleted successfully",
+            deletedId: id
+        });
+    }
+    catch (err) {
+        res.status(500).json({ message: "Error deleting share link" });
+    }
+});
 app.get("/api/v1/brain/:shareLink", userMiddleware, async (req, res) => {
     try {
         const { shareLink } = req.params;
-        const share = await ShareModel.findOne({ shareLink }).populate("ContentIds");
+        const share = await ShareModel.findOne({ shareLink }).populate("contentIds");
         if (!share) {
             return res.status(404).json({ message: "Invalid share link" });
         }

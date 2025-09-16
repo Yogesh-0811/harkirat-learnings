@@ -15,7 +15,6 @@ const UserSchema = new Schema({
     username: {type: String, unique: true},
     password: String
 })
-
 export const userModel = model("Users", UserSchema);
 
 const ContentSchema = new Schema({
@@ -24,7 +23,6 @@ const ContentSchema = new Schema({
     tags: [{type: mongoose.Types.ObjectId, ref: 'Tag'}],
     userId: {type: mongoose.Types.ObjectId, ref: 'Users', required: true}
 })
-
 export const ContentModel = model("Content", ContentSchema);
 
 const ShareSchema = new Schema({
@@ -32,5 +30,4 @@ const ShareSchema = new Schema({
     contentIds: [{type: mongoose.Types.ObjectId, ref: "Content"}],
     shareLink: {type: String, unique: true, required:true}
 });
-
 export const ShareModel = model("Share", ShareSchema);

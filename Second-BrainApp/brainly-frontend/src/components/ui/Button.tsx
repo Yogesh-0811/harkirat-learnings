@@ -11,19 +11,23 @@ interface ButtonProps{
 
 // type Variants = "primary" | "secondary"
 const variantStyles = {
-    "primary": "bg-purple-600 text-white",
-    "secondary": "bg-purple-400 text-purple-600"
+    "primary": "bg-brandpurple-600 text-white",
+    "secondary": "bg-brandpurple-400 text-brandpurple-600"
 }
 
 const sizeStyles = {
-    "sm" : "p-2",
-    "md" : "p-4",
-    "lg" : "p-6"
+    "sm" : "py-1 px-2",
+    "md" : "py-2 px-4",
+    "lg" : "py-4 px-6"
 }
 
-const deafaultStyles = "rounded-md p-4"
+const deafaultStyles = "rounded-md p-4 flex items-center"
 
 export const Button = (props: ButtonProps) =>{
 
-    return <button className={`${variantStyles[props.variant]} ${deafaultStyles} ${sizeStyles[props.size]}`}>{props.text}</button>
+    return <button className={`${variantStyles[props.variant]} ${deafaultStyles} ${sizeStyles[props.size]}`}>
+        {props.startIcon ? <div className="pr-2">{props.startIcon}</div>:null} 
+        {props.text} 
+        {props.endIcon ? <div className="pr-2 pl-2">{props.endIcon}</div>:null}
+    </button>
 }

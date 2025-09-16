@@ -3,7 +3,11 @@
   "overrides": [
     {
       "files": ["**/*.ts", "**/*.js", "**/*.tsx", "**/*.jsx"],
-      "rules": {}
+      "rules": {
+        "at-rule-no-unknown": [true, {
+      "ignoreAtRules": ["tailwind", "apply", "variants", "responsive", "screen"]
+      }]
+      }
     }
   ]
 }
