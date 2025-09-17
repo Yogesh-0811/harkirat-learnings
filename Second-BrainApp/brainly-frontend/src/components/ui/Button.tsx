@@ -6,7 +6,7 @@ interface ButtonProps{
     text: string;
     startIcon?: ReactNode;
     endIcon?: ReactNode;
-    onClick: ()=>void;
+    onClick?: ()=>void;
 }
 
 // type Variants = "primary" | "secondary"
@@ -25,7 +25,7 @@ const deafaultStyles = "rounded-md p-4 flex items-center"
 
 export const Button = (props: ButtonProps) =>{
 
-    return <button className={`${variantStyles[props.variant]} ${deafaultStyles} ${sizeStyles[props.size]}`}>
+    return <button onClick={props.onClick} className={`${variantStyles[props.variant]} ${deafaultStyles} ${sizeStyles[props.size]}`}>
         {props.startIcon ? <div className="pr-2">{props.startIcon}</div>:null} 
         {props.text} 
         {props.endIcon ? <div className="pr-2">{props.endIcon}</div>:null}
