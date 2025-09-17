@@ -28,6 +28,6 @@ export const Button = (props: ButtonProps) =>{
     return <button className={`${variantStyles[props.variant]} ${deafaultStyles} ${sizeStyles[props.size]}`}>
         {props.startIcon ? <div className="pr-2">{props.startIcon}</div>:null} 
         {props.text} 
-        {props.endIcon ? <div className="pr-2 pl-2">{props.endIcon}</div>:null}
+        {props.endIcon ? <div className="pr-2">{props.endIcon}</div>:null}
     </button>
 }
