@@ -7,6 +7,8 @@ interface ButtonProps{
     startIcon?: ReactNode;
     endIcon?: ReactNode;
     onClick?: ()=>void;
+    fullWidth?: boolean;
+    loading?: boolean;
 }
 
 // type Variants = "primary" | "secondary"
@@ -21,11 +23,11 @@ const sizeStyles = {
     "lg" : "py-4 px-6"
 }
 
-const deafaultStyles = "rounded-md p-4 flex items-center"
+const deafaultStyles = "rounded-md p-4 flex items-center cursor-pointer"
 
 export const Button = (props: ButtonProps) =>{
 
-    return <button onClick={props.onClick} className={`${variantStyles[props.variant]} ${deafaultStyles} ${sizeStyles[props.size]}`}>
+    return <button onClick={props.onClick} className={`${variantStyles[props.variant]} ${deafaultStyles} ${sizeStyles[props.size]} ${props.fullWidth?"w-full flex justify-center items-center":""} ${props.loading?"opacity-45":""}`}>
         {props.startIcon ? <div className="pr-2">{props.startIcon}</div>:null} 
         {props.text} 
         {props.endIcon ? <div className="pr-2">{props.endIcon}</div>:null}

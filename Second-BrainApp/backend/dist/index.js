@@ -5,8 +5,10 @@ import { userModel, connectDB, ContentModel, ShareModel } from "./db.js";
 import { JWT_SECRET } from "./config.js";
 import { userMiddleware } from "./middleware.js";
 import { v4 as uuidv4 } from "uuid";
+import cors from "cors";
 const app = express();
 app.use(express.json());
+app.use(cors());
 connectDB().then(() => {
     app.listen(3000, () => console.log("Server running on port 3000"));
 });
