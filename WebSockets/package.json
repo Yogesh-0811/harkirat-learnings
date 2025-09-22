@@ -1,0 +1,19 @@
+{
+  "name": "websockets",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "tsc -b && node ./dist/index.js",
+    "lint:css": "stylelint \"**/*.{css,scss}\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@types/ws": "^8.18.1",
+    "typescript": "^5.9.2",
+    "ws": "^8.18.3"
+  }
+}
