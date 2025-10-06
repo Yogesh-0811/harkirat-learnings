@@ -24,12 +24,10 @@ interface Message {
 let allUsers: User[] = [];
 const rooms: Set<string> = new Set(['general', 'random', 'tech']);
 
-// Helper function to get users in a room
 function getUsersInRoom(roomId: string): User[] {
     return allUsers.filter(user => user.room === roomId);
 }
 
-// Helper function to broadcast to room
 function broadcastToRoom(roomId: string, message: Message, excludeUserId?: string) {
     getUsersInRoom(roomId).forEach(user => {
         if (!excludeUserId || user.id !== excludeUserId) {
@@ -38,7 +36,6 @@ function broadcastToRoom(roomId: string, message: Message, excludeUserId?: strin
     });
 }
 
-// Helper function to send user list to room
 function sendUserListToRoom(roomId: string) {
     const usersInRoom = getUsersInRoom(roomId).map(user => ({
         id: user.id,
@@ -58,7 +55,6 @@ wss.on('connection', (socket: WebSocket) => {
     const userId = uuidv4();
     console.log(`User ${userId} connected`);
 
-    // Send available rooms to new connection
     socket.send(JSON.stringify({
         id: uuidv4(),
         type: 'room_list',
@@ -73,14 +69,12 @@ wss.on('connection', (socket: WebSocket) => {
             switch (parsedMessage.type) {
                 case 'join':
                     const { roomId, username } = parsedMessage.payload;
-                    
-                    // Remove user from previous room if exists
+
                     const existingUser = allUsers.find(user => user.socket === socket);
                     if (existingUser) {
                         const oldRoom = existingUser.room;
                         allUsers = allUsers.filter(user => user.id !== existingUser.id);
-                        
-                        // Notify old room about user leaving
+
                         broadcastToRoom(oldRoom, {
                             id: uuidv4(),
                             type: 'leave',
@@ -94,7 +88,6 @@ wss.on('connection', (socket: WebSocket) => {
                         sendUserListToRoom(oldRoom);
                     }
 
-                    // Add to new room
                     const newUser: User = {
                         id: userId,
                         socket,
@@ -104,9 +97,8 @@ wss.on('connection', (socket: WebSocket) => {
                     };
 
                     allUsers.push(newUser);
-                    rooms.add(roomId); // Add room to set if it doesn't exist
+                    rooms.add(roomId);
 
-                    // Notify room about new user
                     broadcastToRoom(roomId, {
                         id: uuidv4(),
                         type: 'join',
@@ -118,7 +110,6 @@ wss.on('connection', (socket: WebSocket) => {
                         userId: newUser.id
                     });
 
-                    // Send confirmation to user
                     socket.send(JSON.stringify({
                         id: uuidv4(),
                         type: 'join',
@@ -131,7 +122,6 @@ wss.on('connection', (socket: WebSocket) => {
                         timestamp: new Date().toISOString()
                     }));
 
-                    // Send updated user list to room
                     sendUserListToRoom(roomId);
                     break;
 
@@ -174,10 +164,8 @@ wss.on('connection', (socket: WebSocket) => {
         if (user) {
             console.log(`User ${user.username} (${user.id}) disconnected`);
             
-            // Remove user from allUsers
             allUsers = allUsers.filter(u => u.id !== user.id);
-            
-            // Notify room about user leaving
+
             broadcastToRoom(user.room, {
                 id: uuidv4(),
                 type: 'leave',
@@ -188,8 +176,6 @@ wss.on('connection', (socket: WebSocket) => {
                 timestamp: new Date().toISOString(),
                 userId: user.id
             });
-
-            // Send updated user list to room
             sendUserListToRoom(user.room);
         }
     });

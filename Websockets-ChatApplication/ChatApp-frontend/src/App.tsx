@@ -102,7 +102,7 @@ export default function ChatApp() {
       
       wsRef.current.send(JSON.stringify(joinMessage));
       setIsJoined(true);
-      setMessages([]); // Clear messages when joining new room
+      setMessages([]);
     }
   };
 
